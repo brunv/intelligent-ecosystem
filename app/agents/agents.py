@@ -41,9 +41,10 @@ class LionAgent(Agent):
     def percepts(self):
         cellmates = self.model.grid.get_cell_list_contents([self.pos])
         other = self.random.choice(cellmates)
-        if (len(cellmates) > 1 and other.specie != "floresta" and other.specie != "agua"):
-            if(other.specie == "antilope" or other.specie == "passaro" ):
-                self.fight(other)
+        agent_target = self.target(cellmates) 
+        if (len(cellmates) > 1):
+            if(agent_target!=None):
+                self.fight(agent_target)
             elif(other.specie == "leao" and self.unique_id != other.unique_id):
                 self.born()
 
@@ -59,17 +60,21 @@ class LionAgent(Agent):
                 self.drink()
                 water_exists=1
         if(water_exists==0):
+            #if(other.specie == "leao" and self.unique_id != other.unique_id):
+            #    self.born()
+
             self.move(new_position)
     
     def fight(self, other):          
+        if(self.health<150):
+            self.health = self.health+50
         other.health = DEAD
         id_list[other.unique_id] = DEAD
         self.model.grid._remove_agent(other.pos, other)
-        self.health = self.health+10
 
     def born(self):
             born_chance = random.randint(1,10)
-            if (born_chance > 5 and self.health>10):
+            if (born_chance > 5 and self.health>30):
                 for i in range(RANGE):
                     if (id_list[i] == DEAD):
                         id_list[i]=ALIVE
@@ -82,7 +87,8 @@ class LionAgent(Agent):
         self.model.grid.move_agent(self, new_position)
 
     def drink(self):
-        self.health = self.health+10
+        if(self.health<100):
+            self.health = self.health+10
 
     def damage(self):
         damage_chance = random.randint(1,10)
@@ -92,7 +98,11 @@ class LionAgent(Agent):
                 id_list[self.unique_id]=0
                 self.model.grid._remove_agent(self.pos, self)
                 # print(self.specie,"[",self.unique_id,"] -> ", self.health)
-
+    def target(self, agents_list):
+        for item in agents_list:
+            if (item.specie == "passsaro" or item.specie == "antilope" or item.specie == "crocodilo"):
+                return item
+        return None
 
 class AntelopeAgent(Agent):
     """ An agent with fixed initial wealth."""
@@ -126,15 +136,16 @@ class AntelopeAgent(Agent):
         for item in agent_list:
             if(item.specie == "agua"):
                 self.drink()
-                water_exists=1
-        if(water_exists==0):
-            self.move(new_position)
+                break
+
+        self.move(new_position)
 
     def fight(self, other):          
+        if(self.health<150):
+            self.health = self.health+50
         other.health = DEAD
         id_list[other.unique_id] = DEAD
         self.model.grid._remove_agent(other.pos, other)
-        self.health = self.health+50
 
     def born(self):
             born_chance = random.randint(1,10)
@@ -151,7 +162,8 @@ class AntelopeAgent(Agent):
         self.model.grid.move_agent(self, new_position)
 
     def drink(self):
-        self.health = self.health+10
+        if(self.health<150):
+            self.health = self.health+10
 
     def damage(self):
         damage_chance = random.randint(1,10)
@@ -160,7 +172,6 @@ class AntelopeAgent(Agent):
             if (self.health <= 0):
                 id_list[self.unique_id]= DEAD
                 self.model.grid._remove_agent(self.pos, self)
-
 
 class BirdAgent(Agent):
     """ An agent with fixed initial wealth."""
@@ -191,28 +202,41 @@ class BirdAgent(Agent):
             include_center=True)
         new_position = self.random.choice(possible_steps)
         agent_list = self.model.grid.iter_cell_list_contents(new_position)
-        water_exists=0
-
+        water_exists = 0
         for item in agent_list:
             if(item.specie == "agua"):
                 self.drink()
-                water_exists=1
-        if(water_exists==0):
-            if(self.seed_time==5):
-                self.born_bush()
-                self.seed_time=0
-                self.seed=False
-            self.seed_time=self.seed_time+1
-            self.move(new_position)
+                water_exists = 1
+                break
+        
+        if (water_exists == 0):
+            if(self.seed_time>=10):
+                if(self.agent_local() != "agua"):
+                    self.born_bush()
+                    self.seed_time=0
+                    self.seed=False
+        self.seed_time=self.seed_time+1
+        self.move(new_position)
+    
+    def agent_local(self):
+        agents_list = self.model.grid.iter_cell_list_contents(self.pos)
+        what_exists = "floresta"
+        for item in agents_list:
+            print("agents_list: ", item.specie)
+            if (item.specie == "agua"):
+                what_exists = "agua"
+
+        return what_exists
 
     def fight(self, other):          
-        self.health = self.health+10
+        if(self.health<150):
+            self.health = self.health+10
         self.seed=True
         self.seed_time=0
 
     def born(self):
         born_chance = random.randint(1,10)
-        if (born_chance > 40 and self.health>30):
+        if (born_chance > 8 and self.health>80):
             for i in range(RANGE*2, RANGE*3):
                 if (id_list[i] == DEAD):
                     id_list[i]=ALIVE
@@ -223,7 +247,7 @@ class BirdAgent(Agent):
 
     def born_bush(self):
         born_chance = random.randint(1,10)
-        if (born_chance > 1):
+        if (born_chance > 3):
             for i in range(RANGE*5, RANGE*6):
                 if (id_list[i] == DEAD):
                     id_list[i]=ALIVE
@@ -236,12 +260,88 @@ class BirdAgent(Agent):
         self.model.grid.move_agent(self, new_position)
 
     def drink(self):
-        self.health = self.health+10
+        if(self.health<150):
+            self.health = self.health+10
 
     def damage(self):
         damage_chance = random.randint(1,10)
         if damage_chance > 5:
-            self.health = self.health - 5
+            self.health = self.health - 4
             if (self.health <= 0):
                 id_list[self.unique_id]= DEAD
                 self.model.grid._remove_agent(self.pos, self)
+
+class CrocodileAgent(Agent):
+    """ An agent with fixed initial wealth."""
+    def __init__(self, unique_id, model, specie):
+        super().__init__(unique_id, model)
+        self.specie=specie
+        self.health = 100
+
+    def step(self):
+        if(id_list[self.unique_id] == ALIVE):
+            self.percepts()
+            #self.damage()
+
+    def percepts(self):
+        cellmates = self.model.grid.get_cell_list_contents([self.pos])
+        other = self.random.choice(cellmates)
+        agent_target = self.target(cellmates) 
+        if (len(cellmates) > 1):
+            if(agent_target!=None):
+                self.fight(agent_target)
+            if(other.specie == "crocodilo" and self.unique_id != other.unique_id):
+                self.born()
+
+        possible_steps = self.model.grid.get_neighborhood(
+            self.pos,
+            moore=True,
+            include_center=True)
+        new_position = self.random.choice(possible_steps)
+        agent_list = self.model.grid.iter_cell_list_contents(new_position)
+
+        for item in agent_list:
+            if(item.specie == "agua"):
+                self.drink()
+                break
+
+        self.move(new_position)
+
+    def fight(self, other):          
+        if(self.health<150):
+            self.health = self.health+20
+        other.health = DEAD
+        id_list[other.unique_id] = DEAD
+        self.model.grid._remove_agent(other.pos, other)
+
+    def born(self):
+        born_chance = random.randint(1,10)
+        if (born_chance > 7 and self.health>50):
+            for i in range(RANGE*4, RANGE*5):
+                if (id_list[i] == DEAD):
+                    id_list[i]=ALIVE
+                    crocodile = CrocodileAgent(i, self.model, "crocodilo")
+                    self.model.schedule.add(crocodile)
+                    self.model.grid.place_agent(crocodile, self.pos)
+                    break
+
+    def move(self, new_position):
+        self.model.grid.move_agent(self, new_position)
+
+    def drink(self):
+        if(self.health<150):
+            self.health = self.health+10
+
+    def damage(self):
+        damage_chance = random.randint(1,10)
+        if damage_chance > 5:
+            self.health = self.health - 4
+            if (self.health <= 0):
+                id_list[self.unique_id]= DEAD
+                self.model.grid._remove_agent(self.pos, self)
+
+    def target(self, agents_list):
+        for item in agents_list:
+            if (item.specie == "passsaro" or item.specie == "antilope"):
+                return item
+        return None
