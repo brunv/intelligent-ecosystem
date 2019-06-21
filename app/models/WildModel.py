@@ -93,9 +93,20 @@ def generate_bird(self, bird_num):
         y = self.random.randrange(self.grid.height)
         self.grid.place_agent(bird, (x, y))
 
+def generate_crocodile(self, crocodile_num):
+    for i in range(RANGE*4, RANGE*4+crocodile_num):
+        crocodile = CrocodileAgent(i, self, "crocodilo")
+        id_list[i]=ALIVE 
+        self.schedule.add(crocodile)
+        x = self.random.randrange(self.grid.width)
+        y = self.random.randrange(self.grid.height)
+        self.grid.place_agent(crocodile, (x, y))
+        print("ID: \t", crocodile.unique_id, "\tPosicao: ", crocodile.pos,"\tEspecie: ", crocodile.specie)
+
+
 class WildModel(Model):
     """A model with some number of agents."""
-    def __init__(self, N, width, height, antelope_num, lion_num, bird_num,bush_num):
+    def __init__(self, N, width, height, lion_num, antelope_num, bird_num, crocodile_num, bush_num):
         self.num_agents = N
         self.grid = MultiGrid(width, height, True)
         self.schedule = RandomActivation(self)
@@ -107,6 +118,7 @@ class WildModel(Model):
         generate_lion(self,lion_num)
         generate_antelope(self, antelope_num)
         generate_bird(self, bird_num)
+        generate_crocodile(self, crocodile_num)
         generate_jungle(self)
 
     def step(self):
