@@ -9,7 +9,7 @@ def agent_portrayal(agent):
     else:	 
     	health_points = agent.health/100.0
 
-    # print(agent.specie,"[",agent.unique_id,"] -> ", health_points)
+    print(agent.specie,"[",agent.unique_id,"] -> ", health_points)
     
     portrayal = {"Shape": "img/leao.png",
                 "scale": health_points,
