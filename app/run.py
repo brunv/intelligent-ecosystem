@@ -27,6 +27,9 @@ def agent_portrayal(agent):
     elif (agent.specie == "crocodilo"):
         portrayal["Shape"]= "img/crocodile.png"
         portrayal["Layer"] = 1
+    elif (agent.specie == "cobra"):
+        portrayal["Shape"]= "img/snake.png"
+        portrayal["Layer"] = 1
     elif (agent.specie == "arbusto"):
         portrayal["Shape"]= "img/arbusto.png"
         portrayal["Layer"] = 1 
@@ -56,6 +59,7 @@ server = ModularServer(WildModel,
                         "lion_num": 5,
                         "antelope_num": 20,
                         "bird_num": 15,
+                        "snake_num": 10,
                         "crocodile_num":5,
                         "bush_num":15})
 server.port = 8521 # The default
