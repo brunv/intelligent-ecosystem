@@ -1,4 +1,4 @@
-from models.WildModel import *
+from models.wild_model import *
 from mesa.visualization.modules import CanvasGrid
 from mesa.visualization.ModularVisualization import ModularServer
 
@@ -11,7 +11,7 @@ def agent_portrayal(agent):
 
     #print(agent.specie,"[",agent.unique_id,"] -> ", health_points)
     
-    portrayal = {"Shape": "img/leao.png",
+    portrayal = {"Shape": "img/lion.png",
                 "scale": health_points,
                 "Heath": agent.health,
                 "specie": agent.specie,
@@ -19,10 +19,10 @@ def agent_portrayal(agent):
     if (agent.specie == "leao"):
         portrayal["Layer"] = 1 
     elif (agent.specie == "antilope"):
-        portrayal["Shape"]= "img/pumba.png"
+        portrayal["Shape"]= "img/antelope.png"
         portrayal["Layer"] = 1 
     elif (agent.specie == "passaro"):
-        portrayal["Shape"]= "img/passaro.png"
+        portrayal["Shape"]= "img/bird.png"
         portrayal["Layer"] = 1
     elif (agent.specie == "crocodilo"):
         portrayal["Shape"]= "img/crocodile.png"
@@ -31,7 +31,7 @@ def agent_portrayal(agent):
         portrayal["Shape"]= "img/snake.png"
         portrayal["Layer"] = 1
     elif (agent.specie == "arbusto"):
-        portrayal["Shape"]= "img/arbusto.png"
+        portrayal["Shape"]= "img/bush.png"
         portrayal["Layer"] = 1 
     elif(agent.specie == "floresta"):
         portrayal["Shape"] = "rect"
@@ -50,18 +50,19 @@ def agent_portrayal(agent):
     return portrayal
 
 grid = CanvasGrid(agent_portrayal, 20, 20, 1000, 1000)
+model_params = dict(N=5,
+                    width=20, 
+                    height=20,
+                    lion_num= 5,
+                    antelope_num= 20,
+                    bird_num= 15,
+                    snake_num= 10,
+                    crocodile_num=5,
+                    bush_num=15)
 server = ModularServer(WildModel,
                        [grid],
                        "Wild Model",
-                       {"N":5,
-                        "width":20, 
-                        "height":20,
-                        "lion_num": 5,
-                        "antelope_num": 20,
-                        "bird_num": 15,
-                        "snake_num": 10,
-                        "crocodile_num":5,
-                        "bush_num":15})
+                       model_params)
 server.port = 8521 # The default
 server.launch()
 
