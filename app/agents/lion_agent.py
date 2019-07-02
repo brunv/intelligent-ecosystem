@@ -75,6 +75,6 @@ class LionAgent(Agent):
     def target(self, agents_list):
         for item in agents_list:
             if (item.specie == "passsaro" or item.specie == "antilope" or item.specie == "crocodilo" or item.specie == "cobra"):
-                print("ACHEI UMA PRESA!")
+                #print("ACHEI UMA PRESA!")
                 return item
         return None
