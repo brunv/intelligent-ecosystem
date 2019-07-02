@@ -13,12 +13,13 @@ class WildModel(Model):
         # ORDEM DOS AGENTES IMPORTA
         generate_water(self)
         generate_bush(self, bush_num)
+        #generate_desert(self)
         generate_lion(self,lion_num)
         generate_antelope(self, antelope_num)
         generate_bird(self, bird_num)
         generate_snake(self, snake_num)
         generate_crocodile(self, crocodile_num)
-        generate_jungle(self)
+        generate_jungle(self, width, height)
 
     def step(self):
         self.schedule.step()

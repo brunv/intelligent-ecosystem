@@ -2,8 +2,9 @@ from mesa import Agent
 from agents.import_agents import *
 
 class BirdAgent(Agent):
-    def __init__(self, unique_id, model, specie):
+    def __init__(self, unique_id, model, specie, agent_type):
         super().__init__(unique_id, model)
+        self.type = agent_type
         self.specie=specie
         self.health = 100
         self.seed=False
@@ -67,7 +68,7 @@ class BirdAgent(Agent):
             for i in range(RANGE*2, RANGE*3):
                 if (id_list[i] == DEAD):
                     id_list[i]=ALIVE
-                    bird = BirdAgent(i, self.model, "passaro")
+                    bird = BirdAgent(i, self.model, "passaro", "animal")
                     self.model.schedule.add(bird)
                     self.model.grid.place_agent(bird, self.pos)
                     break
@@ -78,7 +79,7 @@ class BirdAgent(Agent):
             for i in range(RANGE*5, RANGE*6):
                 if (id_list[i] == DEAD):
                     id_list[i]=ALIVE
-                    bush = BushAgent(i, self.model, "arbusto")
+                    bush = BushAgent(i, self.model, "arbusto", "planta")
                     self.model.schedule.add(bush)
                     self.model.grid.place_agent(bush, self.pos)
                     break
