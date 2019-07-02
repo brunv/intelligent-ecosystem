@@ -2,8 +2,9 @@ from mesa import Agent
 from agents.import_agents import *
 
 class SnakeAgent(Agent):
-    def __init__(self, unique_id, model, specie):
+    def __init__(self, unique_id, model, specie, agent_type):
         super().__init__(unique_id, model)
+        self.type = agent_type
         self.specie=specie
         self.health = 100
 
@@ -49,7 +50,7 @@ class SnakeAgent(Agent):
             for i in range(RANGE*3, RANGE*4):
                 if (id_list[i] == DEAD):
                     id_list[i]=ALIVE
-                    snake = SnakeAgent(i, self.model, "cobra")
+                    snake = SnakeAgent(i, self.model, "cobra", "animal")
                     self.model.schedule.add(snake)
                     self.model.grid.place_agent(snake, self.pos)
                     break

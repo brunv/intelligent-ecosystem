@@ -2,9 +2,10 @@ from mesa import Agent
 from agents.import_agents import *
 
 class AntelopeAgent(Agent):
-    def __init__(self, unique_id, model, specie):
+    def __init__(self, unique_id, model, specie, agent_type):
         super().__init__(unique_id, model)
-        self.specie=specie
+        self.type = agent_type
+        self.specie = specie
         self.health = 100
 
     def step(self):
@@ -47,7 +48,7 @@ class AntelopeAgent(Agent):
                 for i in range(RANGE, RANGE*2):
                     if (id_list[i] == DEAD):
                         id_list[i]=ALIVE
-                        antelope = AntelopeAgent(i, self.model, "antilope")
+                        antelope = AntelopeAgent(i, self.model, "antilope", "animal")
                         self.model.schedule.add(antelope)
                         self.model.grid.place_agent(antelope, self.pos)
                         break

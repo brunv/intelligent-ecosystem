@@ -2,8 +2,9 @@ from mesa import Agent
 from agents.import_agents import *
 
 class CrocodileAgent(Agent):
-    def __init__(self, unique_id, model, specie):
+    def __init__(self, unique_id, model, specie, agent_type):
         super().__init__(unique_id, model)
+        self.type = agent_type
         self.specie=specie
         self.health = 100
 
@@ -49,7 +50,7 @@ class CrocodileAgent(Agent):
             for i in range(RANGE*4, RANGE*5):
                 if (id_list[i] == DEAD):
                     id_list[i]=ALIVE
-                    crocodile = CrocodileAgent(i, self.model, "crocodilo")
+                    crocodile = CrocodileAgent(i, self.model, "crocodilo", "animal")
                     self.model.schedule.add(crocodile)
                     self.model.grid.place_agent(crocodile, self.pos)
                     break

@@ -47,12 +47,17 @@ def agent_portrayal(agent):
         portrayal["Layer"] = 0.1
         portrayal["w"] = 1
         portrayal["h"] = 1
+    elif(agent.specie == "deserto"):
+        portrayal["Shape"]= "img/sand.jpeg"
+        portrayal["Layer"] = 0.1
+        portrayal["w"] = 1
+        portrayal["h"] = 1
     return portrayal
 
-grid = CanvasGrid(agent_portrayal, 20, 20, 1000, 1000)
+grid = CanvasGrid(agent_portrayal, 25, 25, 1000, 1000)
 model_params = dict(N=5,
-                    width=20, 
-                    height=20,
+                    width=25, 
+                    height=25,
                     lion_num= 5,
                     antelope_num= 20,
                     bird_num= 15,
