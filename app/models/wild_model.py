@@ -11,7 +11,7 @@ class WildModel(Model):
         self.running = True
         
         # ORDEM DOS AGENTES IMPORTA
-        generate_water(self)
+        #generate_water(self)
         generate_bush(self, bush_num)
         #generate_desert(self)
         generate_lion(self,lion_num)

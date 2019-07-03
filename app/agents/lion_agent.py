@@ -1,6 +1,5 @@
 from mesa import Agent
 from agents.import_agents import *
-from custom.functions import *
 
 
 class LionAgent(Agent):
@@ -14,63 +13,69 @@ class LionAgent(Agent):
     def step(self):
         if(id_list[self.unique_id] == ALIVE):
             self.percepts() 
-            self.damage()
+            #self.damage()
 
     def percepts(self):
-        cellmates = get_object(self, "self")
-        
-        agent_target = self.target(cellmates) 
-        
-        if(agent_target!=None):
-            self.fight(agent_target)
-        
-        self.breeding(cellmates)
+        self.breeding()
         self.set_move()
     
-
-
-    def fight(self, other):          
-        if(self.health<150):
+    def fight(self, other, possible_position):          
+        #if(self.health<=150):
+        print("SELF:", self.specie, "\tPOS: ", self.pos)
+        print("OTHER:", other.specie, "\tPOS: ", other.pos)
+        aux = possible_position
+        if(self.pos == other.pos):
             self.health = self.health+50
-        other.health = DEAD
-        id_list[other.unique_id] = DEAD
-        self.model.grid._remove_agent(other.pos, other)
+            other.health = DEAD
+            id_list[other.unique_id] = DEAD
+            self.model.grid._remove_agent(other.pos, other)
+            print("Vou pegar a posicao RANDOM, JA QUE MATEI")
 
-    def breeding(self, cellmates):
+        else:
+            print("Vou pegar a posicao do OTHER")
+            possible_position = other.pos
+        if (aux == possible_position):
+            print("NADA DISSO! Vou pegar a posicao do RANDO, JA QUE ESSE FILHO DA PUTA FUGIU")
+
+        print("DENTRO DO FIGHT: ", possible_position)
+        return possible_position
+
+    def breeding(self):
         cellmates = get_object(self, "self")
         for other in cellmates:
             if(other.specie == "leao" and self.unique_id != other.unique_id):
-                if(self.gender != other.gender):
+                if(self.gender == "female" and other.gender == "male"):
                     self.born()
 
     def born(self):
         born_chance = random.randint(1,10)
-        if (born_chance > 5 and self.health>30):
-            for i in range(RANGE):
-                if (id_list[i] == DEAD):
-                    possible_positions = get_neighborhood(self)
-                    position_choose = self.random.choice(possible_positions)
-                    born_position = self.avoid("leao", position_choose, possible_positions, 0)
-                    if (born_position):
-                        id_list[i]=ALIVE
-                        lion = LionAgent(i, self.model, "leao", "animal")
-                        self.model.schedule.add(lion)
-                        self.model.grid.place_agent(lion, self.pos)
-                    break
-
-    def set_move(self):
-        agent_list = get_object(self, "neighborhood")
-        for item in agent_list:
-            if (item.type == "passaro" or item.specie == "antilope" or item.specie == "crocodilo" or item.specie == "cobra"):
-                possible_position=item.pos
-            if(item.specie == "agua"):
-                self.drink()
+        #if (born_chance > 5 and self.health>30):
+        for i in range(RANGE):
+            if (id_list[i] == DEAD):
+                possible_positions = get_neighborhood(self)
+                position_choose = self.random.choice(possible_positions)
+                born_position = self.avoid("leao", position_choose, possible_positions, 0)
+                if (born_position):
+                    id_list[i]=ALIVE
+                    lion = LionAgent(i, self.model, "leao", "animal")
+                    self.model.schedule.add(lion)
+                    self.model.grid.place_agent(lion, born_position)
                 break
 
+    def set_move(self):
         possible_steps = get_neighborhood(self)
         possible_position = self.random.choice(possible_steps)
-        new_position = self.avoid("agua", possible_position, possible_steps, 0)
-        self.move(new_position)
+        agent_target = self.target() 
+        
+        if(agent_target!=False):
+            new_possible_position = self.fight(agent_target, possible_position)
+        else:
+            new_possible_position = possible_position
+        print("possible_position: ", new_possible_position)
+        new_position = self.avoid("agua", new_possible_position, possible_steps, 0)
+        if (new_position != None):
+            print("NEW LIAO: ", new_position)
+            self.move(new_position)
 
     def avoid(self, avoid, possible_position, possible_steps, times):
         have_avoid = False
@@ -103,8 +108,15 @@ class LionAgent(Agent):
                 id_list[self.unique_id]=0
                 self.model.grid._remove_agent(self.pos, self)
 
-    def target(self, agents_list):
+    def target(self):
+        agents_list = get_object(self, "neighborhood")
         for item in agents_list:
             if (item.specie == "passaro" or item.specie == "antilope" or item.specie == "crocodilo" or item.specie == "cobra"):
+                print("RETORNEI UM ", item.specie, "EM:", item.pos )           
                 return item
-        return None
+
+        for item in agents_list:
+            if (item.specie == "agua"):
+                self.drink()
+                break
+        return False

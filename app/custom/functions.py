@@ -2,11 +2,11 @@ import random
 from mesa import Model
 
 def get_neighborhood(self):
-        neighborhood = self.model.grid.get_neighborhood(
-            self.pos,
-            moore=True,
-            include_center=True)
-        return neighborhood
+    neighborhood = self.model.grid.get_neighborhood(
+        self.pos,
+        moore=True,
+        include_center=True)
+    return neighborhood
 
 def get_object(self, choice):
     # Recebe por parametro a posicao (ou lista de posicoes) que será retornado o objeto

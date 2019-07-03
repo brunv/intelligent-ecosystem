@@ -1,5 +1,6 @@
 import numpy as np
-import random
+from custom.functions import *
+
 RANGE = 100
 DEAD = 0
 ALIVE = 1
