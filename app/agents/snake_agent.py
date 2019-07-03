@@ -35,6 +35,7 @@ class SnakeAgent(Agent):
                 born_position = self.avoid("snake", position_choose, possible_positions, 0)
                 if (born_position != None):
                     id_list[i]=ALIVE
+                    agent_counter(self.specie, "born")
                     snake = SnakeAgent(i, self.model, "snake", "animal")
                     self.model.schedule.add(snake)
                     self.model.grid.place_agent(snake, self.pos)
@@ -74,6 +75,7 @@ class SnakeAgent(Agent):
                 self.health = self.health+50
                 other.health = DEAD
                 id_list[other.unique_id] = DEAD
+                agent_counter(other.specie, "die")
                 self.model.grid._remove_agent(other.pos, other)
 
             else:
@@ -110,4 +112,5 @@ class SnakeAgent(Agent):
             self.health = self.health - 3
             if (self.health <= 0):
                 id_list[self.unique_id]= DEAD
+                agent_counter(self.specie, "die")
                 self.model.grid._remove_agent(self.pos, self)

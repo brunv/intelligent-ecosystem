@@ -87,8 +87,8 @@ def generate_lion(self, lion_num):
         pos=(x,y)
         # Verifica se o lion será renderizado na agua
         if (self.grid.is_cell_empty((x,y))):
-            id_list[i]=ALIVE 
-            lion = LionAgent(i,self, "lion", "animal")
+            lion = LionAgent(i, self, "lion", "animal")
+            id_list[i]=ALIVE
             self.schedule.add(lion)
             self.grid.place_agent(lion, (x, y))
             i=i+1
@@ -97,7 +97,7 @@ def generate_lion(self, lion_num):
 def generate_antelope(self, antelope_num):
     for i in range(RANGE, RANGE+antelope_num):
         antelope = AntelopeAgent(i, self, "antelope", "animal")
-        id_list[i]=ALIVE 
+        id_list[i]=ALIVE
         self.schedule.add(antelope)
         x = self.random.randrange(self.grid.width)
         y = self.random.randrange(self.grid.height)
@@ -107,7 +107,7 @@ def generate_antelope(self, antelope_num):
 def generate_bird(self, bird_num):
     for i in range(RANGE*2, RANGE*2+bird_num):
         bird = BirdAgent(i, self, "bird", "animal")
-        id_list[i]=ALIVE 
+        id_list[i]=ALIVE
         self.schedule.add(bird)
         x = self.random.randrange(self.grid.width)
         y = self.random.randrange(self.grid.height)
@@ -117,7 +117,7 @@ def generate_bird(self, bird_num):
 def generate_snake(self, snake_num):
     for i in range(RANGE*3, RANGE*3+snake_num):
         snake = SnakeAgent(i, self, "snake", "animal")
-        id_list[i]=ALIVE 
+        id_list[i]=ALIVE
         self.schedule.add(snake)
         x = self.random.randrange(self.grid.width)
         y = self.random.randrange(self.grid.height)
@@ -128,11 +128,9 @@ def generate_snake(self, snake_num):
 def generate_crocodile(self, crocodile_num):
     for i in range(RANGE*4, RANGE*4+crocodile_num):
         crocodile = CrocodileAgent(i, self, "crocodile", "animal")
-        id_list[i]=ALIVE 
+        id_list[i]=ALIVE
         self.schedule.add(crocodile)
-
         pos = random.choice(water_list)
-
         self.grid.place_agent(crocodile, pos)
         print("ID: \t", crocodile.unique_id, "\tPosicao: ", crocodile.pos,"\tEspecie: ", crocodile.specie)
 
@@ -143,8 +141,8 @@ def generate_bush(self, bush_num):
         y = self.random.randrange(self.grid.height)
         # Verifica se o bush será renderizado na agua
         if (self.grid.is_cell_empty((x,y))):
-            id_list[i]=ALIVE 
             bush = BushAgent(i,self, "bush", "plant")
+            id_list[i]=ALIVE
             self.schedule.add(bush)
             self.grid.place_agent(bush, (x, y))
             i=i+1

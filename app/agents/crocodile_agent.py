@@ -35,6 +35,7 @@ class CrocodileAgent(Agent):
                 born_position = self.avoid("crocodile", position_choose, possible_positions, 0)
                 if (born_position != None):
                     id_list[i]=ALIVE
+                    agent_counter(self.specie, "born")
                     crocodile = CrocodileAgent(i, self.model, "crocodile", "animal")
                     self.model.schedule.add(crocodile)
                     self.model.grid.place_agent(crocodile, self.pos)
@@ -69,6 +70,7 @@ class CrocodileAgent(Agent):
                 self.health = self.health+50
                 other.health = DEAD
                 id_list[other.unique_id] = DEAD
+                agent_counter(other.specie, "die")
                 self.model.grid._remove_agent(other.pos, other)
 
             else:
@@ -119,5 +121,6 @@ class CrocodileAgent(Agent):
         if damage_chance > 7:
             self.health = self.health - 4
             if (self.health <= 0):
-                id_list[self.unique_id]=0
+                id_list[self.unique_id]=DEAD
+                agent_counter(self.specie, "die")
                 self.model.grid._remove_agent(self.pos, self)

@@ -35,6 +35,7 @@ class LionAgent(Agent):
                 born_position = self.avoid("lion", position_choose, possible_positions, 0)
                 if (born_position != None):
                     id_list[i]=ALIVE
+                    agent_counter(self.specie, "born")
                     lion = LionAgent(i, self.model, "lion", "animal")
                     self.model.schedule.add(lion)
                     self.model.grid.place_agent(lion, born_position)
@@ -73,6 +74,7 @@ class LionAgent(Agent):
                 self.health = self.health+20
                 other.health = DEAD
                 id_list[other.unique_id] = DEAD
+                agent_counter(other.specie, "die")
                 self.model.grid._remove_agent(other.pos, other)
 
             else:
@@ -109,4 +111,5 @@ class LionAgent(Agent):
             self.health = self.health - 4
             if (self.health <= 0):
                 id_list[self.unique_id]=0
+                agent_counter(self.specie, "die")
                 self.model.grid._remove_agent(self.pos, self)
