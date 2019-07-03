@@ -27,15 +27,31 @@ class CrocodileAgent(Agent):
             self.pos,
             moore=True,
             include_center=True)
-        new_position = self.random.choice(possible_steps)
+        new_position = self.valid_position(possible_steps)
         agent_list = self.model.grid.iter_cell_list_contents(new_position)
 
         for item in agent_list:
             if(item.specie == "agua"):
-                self.drink()
+                # self.drink()
                 break
 
         self.move(new_position)
+
+    def valid_position(self, possible_steps):
+        water_nearby = False
+        while not water_nearby:
+            possible_position = self.random.choice(possible_steps)
+            possible_neighborhood = self.model.grid.get_neighborhood(
+                possible_position,
+                moore=True,
+                include_center=True)
+            items_nearby = self.model.grid.iter_cell_list_contents(possible_neighborhood)
+
+            for item in items_nearby:
+                if(item.specie == "agua"):
+                    water_nearby = True
+
+        return possible_position
 
     def fight(self, other):          
         if(self.health<150):
