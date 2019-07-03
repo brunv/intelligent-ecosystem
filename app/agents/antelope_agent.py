@@ -34,6 +34,7 @@ class AntelopeAgent(Agent):
                 born_position = self.avoid("antelope", position_choose, possible_positions, 0)
                 if (born_position != None):
                     id_list[i]=ALIVE
+                    agent_counter(self.specie, "born")
                     antelope = AntelopeAgent(i, self.model, "antelope", "animal")
                     self.model.schedule.add(antelope)
                     self.model.grid.place_agent(antelope, born_position)
@@ -72,6 +73,7 @@ class AntelopeAgent(Agent):
                 self.health = self.health+50
                 other.health = DEAD
                 id_list[other.unique_id] = DEAD
+                agent_counter(other.specie, "die")
                 self.model.grid._remove_agent(other.pos, other)
 
             else:
@@ -105,6 +107,7 @@ class AntelopeAgent(Agent):
             self.health = self.health - 5
             if (self.health <= 0):
                 id_list[self.unique_id]= DEAD
+                agent_counter(self.specie, "die")
                 self.model.grid._remove_agent(self.pos, self)
 
     def move(self, new_position):

@@ -8,8 +8,10 @@ def agent_portrayal(agent):
     	health_points = 0
     else:	 
     	health_points = agent.health/100.0
-
-    #print(agent.specie,"[",agent.unique_id,"] -> ", health_points)
+    print("-------------------------")
+    for key in agent_counter_dict:
+        print(key,":", agent_counter_dict[key])
+    print("-------------------------")
     
     portrayal = {"Shape": "",
                 "scale": health_points,
@@ -60,12 +62,12 @@ def agent_portrayal(agent):
 grid = CanvasGrid(agent_portrayal, 25, 25, 1000, 1000)
 model_params = dict(width=25, 
                     height=25,
-                    lion_num= 5,
-                    antelope_num= 20,
-                    bird_num= 15,
-                    snake_num= 5,
-                    crocodile_num=8,
-                    bush_num=90)
+                    lion_num=lion_num,
+                    antelope_num=antelope_num,
+                    bird_num=bird_num,
+                    snake_num=snake_num,
+                    crocodile_num=crocodile_num,
+                    bush_num=bush_num)
 server = ModularServer(WildModel,
                        [grid],
                        "Wild Model",

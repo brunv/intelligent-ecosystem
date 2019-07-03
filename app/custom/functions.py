@@ -1,5 +1,6 @@
 import random
 from mesa import Model
+from config.settings import *    
 
 def get_neighborhood(self, pos=False):
     if not pos:
@@ -26,3 +27,11 @@ def generate_random_gender(self):
         return "male"
     if (gender == 2):
         return "female"
+
+def agent_counter(agent_specie, born_or_die):
+    if (born_or_die == "die"):
+        agent_counter_dict["{specie}".format(specie = agent_specie)] -= 1 
+    else:
+        agent_counter_dict["{specie}".format(specie = agent_specie)] += 1 
+
+    

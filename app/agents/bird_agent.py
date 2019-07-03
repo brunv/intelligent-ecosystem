@@ -37,6 +37,7 @@ class BirdAgent(Agent):
                 born_position = self.avoid("bird", position_choose, possible_positions, 0)
                 if (born_position):
                     id_list[i]=ALIVE
+                    agent_counter(self.specie, "born")
                     bird = BirdAgent(i, self.model, "bird", "animal")
                     self.model.schedule.add(bird)
                     self.model.grid.place_agent(bird, self.pos)
@@ -109,8 +110,9 @@ class BirdAgent(Agent):
         #if (born_chance > 3):
         for i in range(RANGE*5, RANGE*7):
             if (id_list[i] == DEAD):
-                id_list[i]=ALIVE
                 bush = BushAgent(i, self.model, "bush", "plant")
+                id_list[i]=ALIVE
+                agent_counter(bush.specie, "born")
                 self.model.schedule.add(bush)
                 self.model.grid.place_agent(bush, bush_position)
                 break
@@ -124,4 +126,5 @@ class BirdAgent(Agent):
             self.health = self.health - 2
             if (self.health <= 0):
                 id_list[self.unique_id]= DEAD
+                agent_counter(self.specie, "die")
                 self.model.grid._remove_agent(self.pos, self)
