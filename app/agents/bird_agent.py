@@ -44,13 +44,13 @@ class BirdAgent(Agent):
                     self.seed_time=0
                     self.seed=False
         self.seed_time=self.seed_time+1
+       # print("ATUAL DO PASSARO: ", self.pos,"\tPROX PASSARO: ", new_position)
         self.move(new_position)
     
     def agent_local(self):
         agents_list = self.model.grid.iter_cell_list_contents(self.pos)
         what_exists = "floresta"
         for item in agents_list:
-            print("agents_list: ", item.specie)
             if (item.specie == "agua"):
                 what_exists = "agua"
 

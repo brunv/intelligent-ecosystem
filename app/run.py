@@ -15,6 +15,7 @@ def agent_portrayal(agent):
                 "scale": health_points,
                 "Heath": agent.health,
                 "specie": agent.specie,
+                "ID": agent.unique_id, 
                 "Layer": 1}
     if (agent.specie == "leao"):
         portrayal["Layer"] = 1 

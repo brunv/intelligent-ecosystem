@@ -4,11 +4,7 @@ import random
 
 def generate_water(self):   
     i = 1000
-    water_list = [(9,24), (8,24), (8,23), (7,23), (7,22), (7,21), (6,21), (6,20), (6,19), (5, 19),
-    (5, 18), (5, 17), (4, 17), (4, 16), (4, 15), (3, 14), (4, 14), (3, 13), (3, 12), (3, 11), (4, 11),
-    (3, 10), (4, 10), (4, 7), (4, 8), (4, 9), (4, 8), (5, 8), (5, 7), (5, 6), (5, 5), (6, 5), (6, 4),
-    (6, 3), (7, 3),(7, 2), (8, 2), (8, 1), (9, 1), (9, 0),
-    (17,17), (17,18), (18,17), (19,16), (18,16), (17,16), (19,15),(18,15),(20,15),(19,14),(20,14)]
+
     for pos in water_list:
         water = WaterAgent(i,self, "agua", "terreno")
         self.schedule.add(water)
@@ -135,9 +131,10 @@ def generate_crocodile(self, crocodile_num):
         crocodile = CrocodileAgent(i, self, "crocodilo", "animal")
         id_list[i]=ALIVE 
         self.schedule.add(crocodile)
-        x = self.random.randrange(self.grid.width)
-        y = self.random.randrange(self.grid.height)
-        self.grid.place_agent(crocodile, (x, y))
+
+        pos = random.choice(water_list)
+
+        self.grid.place_agent(crocodile, pos)
         print("ID: \t", crocodile.unique_id, "\tPosicao: ", crocodile.pos,"\tEspecie: ", crocodile.specie)
 
 def generate_bush(self, bush_num):
