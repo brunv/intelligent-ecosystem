@@ -20,7 +20,6 @@ def generate_jungle(self, width, height):
             y=j
             pos=(x,y)
             agents_list = self.grid.iter_cell_list_contents(pos)
-            print("Posicao:\t", pos,"\tagents_list:\t",agents_list, "\n\tdir:\t", dir(agents_list))
             for item in agents_list:
                 is_ground = False
                 if (item.type != "terreno"):
