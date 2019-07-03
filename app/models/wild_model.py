@@ -4,8 +4,7 @@ from mesa.space import MultiGrid
 
 
 class WildModel(Model):
-    def __init__(self, N, width, height, lion_num, antelope_num, bird_num, snake_num, crocodile_num, bush_num):
-        self.num_agents = N
+    def __init__(self, width, height, lion_num, antelope_num, bird_num, snake_num, crocodile_num, bush_num):
         self.grid = MultiGrid(width, height, True)
         self.schedule = RandomActivation(self)
         self.running = True

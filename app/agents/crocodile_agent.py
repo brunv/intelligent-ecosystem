@@ -21,7 +21,7 @@ class CrocodileAgent(Agent):
     def breeding(self):
         cellmates = get_object(self, "self")
         for other in cellmates:
-            if(other.specie == "crocodilo" and self.unique_id != other.unique_id):
+            if(other.specie == "crocodile" and self.unique_id != other.unique_id):
                 if(self.gender == "female" and other.gender == "male"):
                     self.born()
 
@@ -32,10 +32,10 @@ class CrocodileAgent(Agent):
             if (id_list[i] == DEAD):
                 possible_positions = get_neighborhood(self)
                 position_choose = self.random.choice(possible_positions)
-                born_position = self.avoid("crocodilo", position_choose, possible_positions, 0)
+                born_position = self.avoid("crocodile", position_choose, possible_positions, 0)
                 if (born_position != None):
                     id_list[i]=ALIVE
-                    crocodile = CrocodileAgent(i, self.model, "crocodilo", "animal")
+                    crocodile = CrocodileAgent(i, self.model, "crocodile", "animal")
                     self.model.schedule.add(crocodile)
                     self.model.grid.place_agent(crocodile, self.pos)
                 break
@@ -59,7 +59,7 @@ class CrocodileAgent(Agent):
     def target(self):
         agents_list = get_object(self, "neighborhood")
         for item in agents_list:
-            if (item.specie == "antilope" or item.specie == "passaro" or item.specie == "cobra"):
+            if (item.specie == "antelope" or item.specie == "bird" or item.specie == "snake"):
                 return item
         return False
 
@@ -98,7 +98,7 @@ class CrocodileAgent(Agent):
         items_nearby = get_object(self, possible_neighborhood)
 
         for item in items_nearby:
-            if(item.specie == "agua"):
+            if(item.specie == "water"):
                 water_nearby = True
         if (water_nearby == False):
             if (times < 18):
