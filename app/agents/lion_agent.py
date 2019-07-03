@@ -21,7 +21,7 @@ class LionAgent(Agent):
     def breeding(self):
         cellmates = get_object(self, "self")
         for other in cellmates:
-            if(other.specie == "leao" and self.unique_id != other.unique_id):
+            if(other.specie == "lion" and self.unique_id != other.unique_id):
                 if(self.gender == "female" and other.gender == "male"):
                     self.born()
 
@@ -32,10 +32,10 @@ class LionAgent(Agent):
             if (id_list[i] == DEAD):
                 possible_positions = get_neighborhood(self)
                 position_choose = self.random.choice(possible_positions)
-                born_position = self.avoid("leao", position_choose, possible_positions, 0)
+                born_position = self.avoid("lion", position_choose, possible_positions, 0)
                 if (born_position != None):
                     id_list[i]=ALIVE
-                    lion = LionAgent(i, self.model, "leao", "animal")
+                    lion = LionAgent(i, self.model, "lion", "animal")
                     self.model.schedule.add(lion)
                     self.model.grid.place_agent(lion, born_position)
                 break
@@ -50,7 +50,7 @@ class LionAgent(Agent):
         else:
             new_possible_position = possible_position
         
-        new_position = self.avoid("agua", new_possible_position, possible_steps, 0)
+        new_position = self.avoid("water", new_possible_position, possible_steps, 0)
         
         if (new_position != None):
             self.move(new_position)
@@ -58,11 +58,11 @@ class LionAgent(Agent):
     def target(self):
         agents_list = get_object(self, "neighborhood")
         for item in agents_list:
-            if (item.specie == "antilope" or item.specie == "crocodilo" or item.specie == "cobra"):
+            if (item.specie == "antelope" or item.specie == "crocodile" or item.specie == "snake"):
                 return item
 
         for item in agents_list:
-            if (item.specie == "agua"):
+            if (item.specie == "water"):
                 self.drink()
                 break
         return False

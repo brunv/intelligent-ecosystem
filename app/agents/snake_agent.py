@@ -21,7 +21,7 @@ class SnakeAgent(Agent):
     def breeding(self):
         cellmates = get_object(self, "self")
         for other in cellmates:
-            if(other.specie == "cobra" and self.unique_id != other.unique_id):
+            if(other.specie == "snake" and self.unique_id != other.unique_id):
                 if(self.gender == "female" and other.gender == "male"):
                     self.born()
 
@@ -32,10 +32,10 @@ class SnakeAgent(Agent):
             if (id_list[i] == DEAD):
                 possible_positions = get_neighborhood(self)
                 position_choose = self.random.choice(possible_positions)
-                born_position = self.avoid("cobra", position_choose, possible_positions, 0)
+                born_position = self.avoid("snake", position_choose, possible_positions, 0)
                 if (born_position != None):
                     id_list[i]=ALIVE
-                    snake = SnakeAgent(i, self.model, "cobra", "animal")
+                    snake = SnakeAgent(i, self.model, "snake", "animal")
                     self.model.schedule.add(snake)
                     self.model.grid.place_agent(snake, self.pos)
                     break
@@ -51,7 +51,7 @@ class SnakeAgent(Agent):
         else:
             new_possible_position = possible_position
         
-        new_position = self.avoid(["crocodilo", "leao"], new_possible_position, possible_steps, 0)
+        new_position = self.avoid(["crocodile", "lion"], new_possible_position, possible_steps, 0)
         
         if (new_position != None):
             self.move(new_position)
@@ -59,11 +59,11 @@ class SnakeAgent(Agent):
     def target(self):
         agents_list = get_object(self, "neighborhood")
         for item in agents_list:
-            if (item.specie == "passaro"):
+            if (item.specie == "bird"):
                 return item
 
         for item in agents_list:
-            if (item.specie == "agua"):
+            if (item.specie == "water"):
                 self.drink()
                 break
         return False

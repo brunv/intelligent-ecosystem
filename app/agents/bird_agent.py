@@ -23,7 +23,7 @@ class BirdAgent(Agent):
     def breeding(self):
         cellmates = get_object(self, "self")
         for other in cellmates:
-            if(other.specie == "passaro" and self.unique_id != other.unique_id):
+            if(other.specie == "bird" and self.unique_id != other.unique_id):
                 if(self.gender == "female" and other.gender == "male"):
                     self.born()
 
@@ -34,10 +34,10 @@ class BirdAgent(Agent):
             if (id_list[i] == DEAD):
                 possible_positions = get_neighborhood(self)
                 position_choose = self.random.choice(possible_positions)
-                born_position = self.avoid("passaro", position_choose, possible_positions, 0)
+                born_position = self.avoid("bird", position_choose, possible_positions, 0)
                 if (born_position):
                     id_list[i]=ALIVE
-                    bird = BirdAgent(i, self.model, "passaro", "animal")
+                    bird = BirdAgent(i, self.model, "bird", "animal")
                     self.model.schedule.add(bird)
                     self.model.grid.place_agent(bird, self.pos)
                 break
@@ -55,7 +55,7 @@ class BirdAgent(Agent):
         if (new_position != None):
             self.move(new_position)
             if (self.seed == True and self.seed_time >= 10):
-                bush_position = self.avoid(["agua", "arbusto"], new_position, possible_steps, 0)
+                bush_position = self.avoid(["water", "bush"], new_position, possible_steps, 0)
                 if (bush_position != None):
                     self.born_bush(bush_position)
                     self.seed_time=0
@@ -66,11 +66,11 @@ class BirdAgent(Agent):
     def target(self):
         agents_list = get_object(self, "neighborhood")
         for item in agents_list:
-            if (item.specie == "arbusto"):
+            if (item.specie == "bush"):
                 return item
 
         for item in agents_list:
-            if (item.specie == "agua"):
+            if (item.specie == "water"):
                 self.drink()
                 break
         return False
@@ -110,7 +110,7 @@ class BirdAgent(Agent):
         for i in range(RANGE*5, RANGE*7):
             if (id_list[i] == DEAD):
                 id_list[i]=ALIVE
-                bush = BushAgent(i, self.model, "arbusto", "planta")
+                bush = BushAgent(i, self.model, "bush", "plant")
                 self.model.schedule.add(bush)
                 self.model.grid.place_agent(bush, bush_position)
                 break
