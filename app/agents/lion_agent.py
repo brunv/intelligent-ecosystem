@@ -1,7 +1,6 @@
 from mesa import Agent
 from agents.import_agents import *
 
-
 class LionAgent(Agent):
     def __init__(self, unique_id, model, specie, agent_type):
         super().__init__(unique_id, model)
@@ -34,7 +33,7 @@ class LionAgent(Agent):
                 possible_positions = get_neighborhood(self)
                 position_choose = self.random.choice(possible_positions)
                 born_position = self.avoid("leao", position_choose, possible_positions, 0)
-                if (born_position):
+                if (born_position != None):
                     id_list[i]=ALIVE
                     lion = LionAgent(i, self.model, "leao", "animal")
                     self.model.schedule.add(lion)
@@ -59,7 +58,7 @@ class LionAgent(Agent):
     def target(self):
         agents_list = get_object(self, "neighborhood")
         for item in agents_list:
-            if (item.specie == "passaro" or item.specie == "antilope" or item.specie == "crocodilo" or item.specie == "cobra"):
+            if (item.specie == "antilope" or item.specie == "crocodilo" or item.specie == "cobra"):
                 return item
 
         for item in agents_list:
@@ -71,7 +70,7 @@ class LionAgent(Agent):
     def fight(self, other, possible_position):          
         if(self.health<=150):
             if(self.pos == other.pos):
-                self.health = self.health+50
+                self.health = self.health+20
                 other.health = DEAD
                 id_list[other.unique_id] = DEAD
                 self.model.grid._remove_agent(other.pos, other)
