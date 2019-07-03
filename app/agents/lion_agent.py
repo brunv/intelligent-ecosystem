@@ -13,7 +13,7 @@ class LionAgent(Agent):
     def step(self):
         if(id_list[self.unique_id] == ALIVE):
             self.percepts() 
-            #self.damage()
+            self.damage()
 
     def percepts(self):
         self.breeding()

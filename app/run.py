@@ -55,16 +55,16 @@ def agent_portrayal(agent):
         portrayal["h"] = 1
     return portrayal
 
-grid = CanvasGrid(agent_portrayal, 5, 5, 1000, 1000)
+grid = CanvasGrid(agent_portrayal, 25, 25, 1000, 1000)
 model_params = dict(N=5,
-                    width=5, 
-                    height=5,
-                    lion_num= 1,
-                    antelope_num= 2,
-                    bird_num= 0,
-                    snake_num= 0,
-                    crocodile_num=0,
-                    bush_num=0)
+                    width=25, 
+                    height=25,
+                    lion_num= 5,
+                    antelope_num= 20,
+                    bird_num= 15,
+                    snake_num= 10,
+                    crocodile_num=5,
+                    bush_num=15)
 server = ModularServer(WildModel,
                        [grid],
                        "Wild Model",
