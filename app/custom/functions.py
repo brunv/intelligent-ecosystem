@@ -1,9 +1,11 @@
 import random
 from mesa import Model
 
-def get_neighborhood(self):
+def get_neighborhood(self, pos=False):
+    if not pos:
+        pos = self.pos    
     neighborhood = self.model.grid.get_neighborhood(
-        self.pos,
+        pos,
         moore=True,
         include_center=True)
     return neighborhood

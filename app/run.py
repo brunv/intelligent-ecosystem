@@ -62,9 +62,9 @@ model_params = dict(N=5,
                     lion_num= 5,
                     antelope_num= 20,
                     bird_num= 15,
-                    snake_num= 10,
-                    crocodile_num=5,
-                    bush_num=15)
+                    snake_num= 5,
+                    crocodile_num=8,
+                    bush_num=90)
 server = ModularServer(WildModel,
                        [grid],
                        "Wild Model",

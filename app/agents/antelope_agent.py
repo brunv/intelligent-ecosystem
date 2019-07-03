@@ -32,7 +32,7 @@ class AntelopeAgent(Agent):
                 possible_positions = get_neighborhood(self)
                 position_choose = self.random.choice(possible_positions)
                 born_position = self.avoid("antilope", position_choose, possible_positions, 0)
-                if (born_position):
+                if (born_position != None):
                     id_list[i]=ALIVE
                     antelope = AntelopeAgent(i, self.model, "antilope", "animal")
                     self.model.schedule.add(antelope)
