@@ -1,7 +1,7 @@
 from models.wild_model import *
 from mesa.visualization.modules import CanvasGrid
 from mesa.visualization.ModularVisualization import ModularServer
-
+from mesa.visualization.modules import ChartModule
 
 def agent_portrayal(agent):
     if (agent.health <= 0):
@@ -68,8 +68,24 @@ model_params = dict(width=25,
                     snake_num=snake_num,
                     crocodile_num=crocodile_num,
                     bush_num=bush_num)
+
+
+chart = ChartModule([
+                    {"Label": "Lion",
+                        "Color": "Orange"},
+                    {"Label": "Snake",
+                        "Color": "Green"},
+                    {"Label": "Antelope",
+                        "Color": "Red"},
+                    {"Label": "Bird",
+                        "Color": "Blue"},
+                    {"Label": "Crocodile",
+                        "Color": "Brown"},                        
+                    ],
+                    data_collector_name='datacollector')
+
 server = ModularServer(WildModel,
-                       [grid],
+                       [chart,grid ],
                        "Wild Model",
                        model_params)
 server.port = 8521 # The default
