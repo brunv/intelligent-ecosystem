@@ -12,7 +12,9 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Run
 Inside /app folder run the following command:
-``` python run.py ```
+```
+python run.py 
+```
 
 ## About the project
 ### Settings
