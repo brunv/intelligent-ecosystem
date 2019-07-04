@@ -85,14 +85,12 @@ def generate_lion(self, lion_num):
         x = self.random.randrange(self.grid.width)
         y = self.random.randrange(self.grid.height)
         pos=(x,y)
-        # Verifica se o lion será renderizado na agua
         if (self.grid.is_cell_empty((x,y))):
             lion = LionAgent(i, self, "lion", "animal")
             id_list[i]=ALIVE
             self.schedule.add(lion)
             self.grid.place_agent(lion, (x, y))
             i=i+1
-            print("ID: \t", lion.unique_id, "\tPosicao: ", lion.pos,"\tEspecie: ", lion.specie)
 
 def generate_antelope(self, antelope_num):
     for i in range(RANGE, RANGE+antelope_num):
@@ -102,7 +100,6 @@ def generate_antelope(self, antelope_num):
         x = self.random.randrange(self.grid.width)
         y = self.random.randrange(self.grid.height)
         self.grid.place_agent(antelope, (x, y))
-        print("ID: \t", antelope.unique_id, "\tPosicao: ", antelope.pos,"\tEspecie: ", antelope.specie)
 
 def generate_bird(self, bird_num):
     for i in range(RANGE*2, RANGE*2+bird_num):
@@ -112,7 +109,6 @@ def generate_bird(self, bird_num):
         x = self.random.randrange(self.grid.width)
         y = self.random.randrange(self.grid.height)
         self.grid.place_agent(bird, (x, y))
-        print("ID: \t", bird.unique_id, "\tPosicao: ", bird.pos,"\tEspecie: ", bird.specie)
 
 def generate_snake(self, snake_num):
     for i in range(RANGE*3, RANGE*3+snake_num):
@@ -122,7 +118,6 @@ def generate_snake(self, snake_num):
         x = self.random.randrange(self.grid.width)
         y = self.random.randrange(self.grid.height)
         self.grid.place_agent(snake, (x, y))
-        print("ID: \t", snake.unique_id, "\tPosicao: ", snake.pos,"\tEspecie: ", snake.specie)
 
 
 def generate_crocodile(self, crocodile_num):
@@ -132,7 +127,6 @@ def generate_crocodile(self, crocodile_num):
         self.schedule.add(crocodile)
         pos = random.choice(water_list)
         self.grid.place_agent(crocodile, pos)
-        print("ID: \t", crocodile.unique_id, "\tPosicao: ", crocodile.pos,"\tEspecie: ", crocodile.specie)
 
 def generate_bush(self, bush_num):
     i=RANGE*5

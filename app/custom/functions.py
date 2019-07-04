@@ -12,7 +12,6 @@ def get_neighborhood(self, pos=False):
     return neighborhood
 
 def get_object(self, choice):
-    # Recebe por parametro a posicao (ou lista de posicoes) que será retornado o objeto
     if choice == "neighborhood":
         content = get_neighborhood(self)
     elif choice == "self":

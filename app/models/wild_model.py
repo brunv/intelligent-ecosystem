@@ -25,10 +25,8 @@ class WildModel(Model):
         self.schedule = RandomActivation(self)
         self.running = True
         
-        # ORDEM DOS AGENTES IMPORTA
         generate_water(self)
         generate_bush(self, bush_num)
-        #generate_desert(self)
         generate_lion(self,lion_num)
         generate_antelope(self, antelope_num)
         generate_bird(self, bird_num)
@@ -47,4 +45,3 @@ class WildModel(Model):
     def step(self):
         self.datacollector.collect(self)
         self.schedule.step()
-        # print(id_list) 
