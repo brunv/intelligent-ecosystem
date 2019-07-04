@@ -10,10 +10,6 @@ def agent_portrayal(agent):
     	health_points = 0
     else:	 
     	health_points = agent.health/100.0
-    # print("-------------------------")
-    # for key in agent_counter_dict:
-    #    print(key,":", agent_counter_dict[key])
-    # print("-------------------------")
     
     portrayal = {"Shape": "",
                 "scale": health_points,
@@ -54,11 +50,6 @@ def agent_portrayal(agent):
         portrayal["Layer"] = 1
         portrayal["w"] = 1
         portrayal["h"] = 1
-    elif(agent.specie == "desert"):
-        portrayal["Shape"]= "img/sand.jpeg"
-        portrayal["Layer"] = 0
-        portrayal["w"] = 1
-        portrayal["h"] = 1
     return portrayal
 
 grid = CanvasGrid(agent_portrayal, 25, 25, 1000, 1000)
@@ -90,6 +81,6 @@ server = ModularServer(WildModel,
                        [chart,grid ],
                        "Wild Model",
                        model_params)
-server.port = 8521 # The default
+server.port = 8521
 server.launch()
 

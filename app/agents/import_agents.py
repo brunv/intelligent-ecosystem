@@ -7,4 +7,3 @@ from agents.jungle_agent import *
 from agents.lion_agent import *
 from agents.snake_agent import *
 from agents.water_agent import *
-from agents.desert_agent import *
