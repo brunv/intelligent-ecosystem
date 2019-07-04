@@ -1,5 +1,6 @@
 from mesa import Agent
 from agents.import_agents import *
+from config.variables import lion_variables as l
 
 class LionAgent(Agent):
     def __init__(self, unique_id, model, specie, agent_type):
@@ -7,7 +8,7 @@ class LionAgent(Agent):
         self.type = agent_type
         self.gender = generate_random_gender(self)
         self.specie = specie
-        self.health = 150
+        self.health = l["initial_health"]
     
     def step(self):
         if(id_list[self.unique_id] == ALIVE):
@@ -27,19 +28,19 @@ class LionAgent(Agent):
 
     def born(self):
         born_chance = random.randint(1,10)
-        #if (born_chance > 5 and self.health>30):
-        for i in range(RANGE):
-            if (id_list[i] == DEAD):
-                possible_positions = get_neighborhood(self)
-                position_choose = self.random.choice(possible_positions)
-                born_position = self.avoid("lion", position_choose, possible_positions, 0)
-                if (born_position != None):
-                    id_list[i]=ALIVE
-                    agent_counter(self.specie, "born")
-                    lion = LionAgent(i, self.model, "lion", "animal")
-                    self.model.schedule.add(lion)
-                    self.model.grid.place_agent(lion, born_position)
-                break
+        if (born_chance > l["born_chance"] and self.health>l["min_health_breeding"]):
+            for i in range(RANGE):
+                if (id_list[i] == DEAD):
+                    possible_positions = get_neighborhood(self)
+                    position_choose = self.random.choice(possible_positions)
+                    born_position = self.avoid("lion", position_choose, possible_positions, 0)
+                    if (born_position != None):
+                        id_list[i]=ALIVE
+                        agent_counter(self.specie, "born")
+                        lion = LionAgent(i, self.model, "lion", "animal")
+                        self.model.schedule.add(lion)
+                        self.model.grid.place_agent(lion, born_position)
+                    break
 
     def set_move(self):
         possible_steps = get_neighborhood(self)
@@ -71,7 +72,7 @@ class LionAgent(Agent):
     def fight(self, other, possible_position):          
         if(self.health<=150):
             if(self.pos == other.pos):
-                self.health = self.health+20
+                self.health = self.health+l["food_refill"]
                 other.health = DEAD
                 id_list[other.unique_id] = DEAD
                 agent_counter(other.specie, "die")
@@ -84,7 +85,7 @@ class LionAgent(Agent):
     
     def drink(self):
         if(self.health<100):
-            self.health = self.health+10
+            self.health = self.health+l["water_refill"]
                 
     def avoid(self, avoid, possible_position, possible_steps, times):
         have_avoid = False
@@ -107,8 +108,8 @@ class LionAgent(Agent):
 
     def damage(self):
         damage_chance = random.randint(1,10)
-        if damage_chance > 7:
-            self.health = self.health - 4
+        if damage_chance > l["damage_chance"]:
+            self.health = self.health - l["damage_points"]
             if (self.health <= 0):
                 id_list[self.unique_id]=0
                 agent_counter(self.specie, "die")

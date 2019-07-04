@@ -1,24 +1,18 @@
 import numpy as np
+from config.variables import * 
 RANGE = 100
 DEAD = 0
 ALIVE = 1
 
 id_list = np.zeros(10*RANGE)
 
-lion_num= 5
-antelope_num= 20
-bird_num= 15
-snake_num= 5
-crocodile_num=8
-bush_num=90
-
 agent_counter_dict={
-	"lion" : lion_num,
-	"antelope" : antelope_num,
-	"bird" : bird_num,
-	"crocodile" : crocodile_num,
-	"snake" : snake_num,
-	"bush" : bush_num
+	"lion" : lion_variables["lion_num"],
+	"antelope" : antelope_variables["antelope_num"],
+	"bird" : bird_variables["bird_num"],
+	"crocodile" : crocodile_variables["crocodile_num"],
+	"snake" : snake_variables["snake_num"],
+	"bush" : bush_variables["bush_num"]
 	}
 
 water_list = [(9,24), (8,24), (8,23), (7,23), (7,22), (7,21), (6,21), (6,20), (6,19), (5, 19),

@@ -1,5 +1,6 @@
 from mesa import Agent
 from agents.import_agents import *
+from config.variables import snake_variables as s
 
 class SnakeAgent(Agent):
     def __init__(self, unique_id, model, specie, agent_type):
@@ -7,7 +8,7 @@ class SnakeAgent(Agent):
         self.type = agent_type
         self.gender = generate_random_gender(self)
         self.specie = specie
-        self.health = 100
+        self.health = s["initial_health"]
 
     def step(self):
         if(id_list[self.unique_id] == ALIVE):
@@ -27,20 +28,20 @@ class SnakeAgent(Agent):
 
     def born(self):
         born_chance = random.randint(1,10)
-        #if (born_chance > 5 and self.health>30):
-        for i in range(RANGE):
-            if (id_list[i] == DEAD):
-                possible_positions = get_neighborhood(self)
-                position_choose = self.random.choice(possible_positions)
-                born_position = self.avoid("snake", position_choose, possible_positions, 0)
-                if (born_position != None):
-                    id_list[i]=ALIVE
-                    agent_counter(self.specie, "born")
-                    snake = SnakeAgent(i, self.model, "snake", "animal")
-                    self.model.schedule.add(snake)
-                    self.model.grid.place_agent(snake, self.pos)
+        if (born_chance > s["born_chance"] and self.health>s["min_health_breeding"]):
+            for i in range(RANGE):
+                if (id_list[i] == DEAD):
+                    possible_positions = get_neighborhood(self)
+                    position_choose = self.random.choice(possible_positions)
+                    born_position = self.avoid("snake", position_choose, possible_positions, 0)
+                    if (born_position != None):
+                        id_list[i]=ALIVE
+                        agent_counter(self.specie, "born")
+                        snake = SnakeAgent(i, self.model, "snake", "animal")
+                        self.model.schedule.add(snake)
+                        self.model.grid.place_agent(snake, self.pos)
+                        break
                     break
-                break
 
     def set_move(self):
         possible_steps = get_neighborhood(self)
@@ -72,7 +73,7 @@ class SnakeAgent(Agent):
     def fight(self, other, possible_position):          
         if(self.health<=150):
             if(self.pos == other.pos):
-                self.health = self.health+50
+                self.health = self.health+s["food_refill"]
                 other.health = DEAD
                 id_list[other.unique_id] = DEAD
                 agent_counter(other.specie, "die")
@@ -101,15 +102,15 @@ class SnakeAgent(Agent):
 
     def drink(self):
         if(self.health<150):
-            self.health = self.health+10
+            self.health = self.health+s["water_refill"]
 
     def move(self, new_position):
         self.model.grid.move_agent(self, new_position)
     
     def damage(self):
         damage_chance = random.randint(1,10)
-        if damage_chance > 5:
-            self.health = self.health - 3
+        if damage_chance > s["damage_chance"]:
+            self.health = self.health - s["damage_points"]
             if (self.health <= 0):
                 id_list[self.unique_id]= DEAD
                 agent_counter(self.specie, "die")
