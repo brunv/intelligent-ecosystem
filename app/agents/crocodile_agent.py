@@ -1,5 +1,7 @@
 from mesa import Agent
 from agents.import_agents import *
+from config.variables import *
+from config.variables import crocodile_variables as c
 
 class CrocodileAgent(Agent):
     def __init__(self, unique_id, model, specie, agent_type):
@@ -7,7 +9,7 @@ class CrocodileAgent(Agent):
         self.type = agent_type
         self.gender = generate_random_gender(self)
         self.specie = specie
-        self.health = 100
+        self.health = c["initial_health"]
 
     def step(self):
         if(id_list[self.unique_id] == ALIVE):
@@ -27,19 +29,19 @@ class CrocodileAgent(Agent):
 
     def born(self):
         born_chance = random.randint(1,10)
-        #if (born_chance > 5 and self.health>30):
-        for i in range(RANGE):
-            if (id_list[i] == DEAD):
-                possible_positions = get_neighborhood(self)
-                position_choose = self.random.choice(possible_positions)
-                born_position = self.avoid("crocodile", position_choose, possible_positions, 0)
-                if (born_position != None):
-                    id_list[i]=ALIVE
-                    agent_counter(self.specie, "born")
-                    crocodile = CrocodileAgent(i, self.model, "crocodile", "animal")
-                    self.model.schedule.add(crocodile)
-                    self.model.grid.place_agent(crocodile, self.pos)
-                break
+        if (born_chance > c["born_chance"] and self.health>c["min_health_breeding"]):
+            for i in range(RANGE):
+                if (id_list[i] == DEAD):
+                    possible_positions = get_neighborhood(self)
+                    position_choose = self.random.choice(possible_positions)
+                    born_position = self.avoid("crocodile", position_choose, possible_positions, 0)
+                    if (born_position != None):
+                        id_list[i]=ALIVE
+                        agent_counter(self.specie, "born")
+                        crocodile = CrocodileAgent(i, self.model, "crocodile", "animal")
+                        self.model.schedule.add(crocodile)
+                        self.model.grid.place_agent(crocodile, self.pos)
+                    break
 
     def set_move(self):
         possible_steps = get_neighborhood(self)
@@ -67,7 +69,7 @@ class CrocodileAgent(Agent):
     def fight(self, other, possible_position):          
         if(self.health<=150):
             if(self.pos == other.pos):
-                self.health = self.health+50
+                self.health = self.health+c["food_refill"]
                 other.health = DEAD
                 id_list[other.unique_id] = DEAD
                 agent_counter(other.specie, "die")
@@ -118,8 +120,8 @@ class CrocodileAgent(Agent):
 
     def damage(self):
         damage_chance = random.randint(1,10)
-        if damage_chance > 7:
-            self.health = self.health - 4
+        if damage_chance > c["damage_chance"]:
+            self.health = self.health - c["damage_points"]
             if (self.health <= 0):
                 id_list[self.unique_id]=DEAD
                 agent_counter(self.specie, "die")
