@@ -1,9 +1,9 @@
-# antelope_num 				=> number of agents initially
-# initial_health : 50		=> health when agent borns
+# agent_num 				=> number of each specie of agent initially
+# initial_health : 50		=> health points when agent borns
 # born_chance : 2 			=> 80% chance to agent born
-# min_health_breeding : 50 	=> 50 life points is the minimum life to agent breed
+# min_health_breeding : 50 	=> minimum health points to be able to breed
 # food_refill :50			=> food regenerates 50 health points
-# water_refill : 10			=> water regenerates 50 health points
+# water_refill : 10			=> water regenerates 10 health points
 # damage_points : 5 		=> life points decrease 5 in each step
 # damage_chance : 5 		=> 50% chance to decrease life points in each step
 antelope_variables = {"antelope_num" : 20,
