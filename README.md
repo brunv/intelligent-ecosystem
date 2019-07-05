@@ -11,7 +11,7 @@ These instructions will get you a copy of the project up and running on your loc
 - [Mesa Framework](https://github.com/projectmesa/mesa/blob/master/docs/index.rst)
 
 ### Run
-Inside /app folder run the following command:
+Inside */app* folder run the following command:
 ```
 python run.py 
 ```
