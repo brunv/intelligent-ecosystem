@@ -11,7 +11,7 @@ These instructions will get you a copy of the project up and running on your loc
 - [Mesa Framework](https://github.com/projectmesa/mesa/blob/master/docs/index.rst)
 
 ### Run
-Inside /app folder run the following command:
+Inside */app* folder run the following command:
 ```
 python run.py 
 ```
@@ -21,13 +21,13 @@ python run.py
 To test different simulations you can change global variables at */app/config/variables.py* to each agent. Here is an example:
 ```
 lion_variables = {"lion_num": 5,
-				"initial_health" : 150, 
-				"born_chance" : 1,
-				"min_health_breeding" : 10,
-				"food_refill" : 20,
-				"water_refill" : 10,
-				"damage_points" : 4,
-				"damage_chance" : 7}
+		"initial_health" : 150, 
+		"born_chance" : 1,
+		"min_health_breeding" : 10,
+		"food_refill" : 20,
+		"water_refill" : 10,
+		"damage_points" : 4,
+		"damage_chance" : 7}
 ```
 *The meaning of each variable is inside the code*
 
