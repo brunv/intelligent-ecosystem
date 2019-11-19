@@ -42,7 +42,7 @@ Each animal agent has their own beliefs, desires and intentions.
     - Location of objects and each terrain in their field of perception
     - Perception of the gender and species of agents in their field of perception
 - Internal States:
-    - Current osition
+    - Current position
     - Amount of life (Heath points)
     - Gender
     - Species
